@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import { authAPI } from "../../services/user";
 import { Button, Container, Link, Paper, Stack, TextField, Typography } from "@mui/material";
 import { useAppDispatch } from "../../hooks/redux";
 import { setUser } from "../../store/reducers/user";
+import { authAPI } from "../../services/auth.service";
 
 const Login = () => {
     const dispatch = useAppDispatch();
@@ -13,6 +13,9 @@ const Login = () => {
     useEffect(()=>{
         if(data?.user){
             dispatch(setUser({...data.user}));
+        }
+        if(data?.token){
+            localStorage.setItem('token',data.token);
         }
     },[data])
 

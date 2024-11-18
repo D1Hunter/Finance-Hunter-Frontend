@@ -1,9 +1,25 @@
 import { Button, Container, Link, Paper, Stack, TextField, Typography } from "@mui/material"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { authAPI } from "../../services/auth.service";
 
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    const [register, {isSuccess}] = authAPI.useRegisterMutation();
+
+    useEffect(()=>{
+        if(isSuccess){
+            navigate('/login');
+        }
+    },[isSuccess])
+
+    const registerFunc = () => {
+        register({email, password});
+        setEmail('');
+        setPassword('');
+    }
     
     return (
         <Container maxWidth="lg">
@@ -16,7 +32,7 @@ const Register = () => {
                     <TextField label="Password" placeholder="Enter password" type="password" value={password} onChange={(e) => {
                         setPassword(e.target.value)
                     }} />
-                    <Button variant="contained" onClick={()=>{}}>Sign up</Button>
+                    <Button variant="contained" onClick={()=>{registerFunc()}}>Sign up</Button>
                     <Typography>Already have an account?
                         <Link href="/" underline="none"> Sign in</Link>
                     </Typography>

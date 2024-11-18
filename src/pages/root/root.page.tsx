@@ -1,12 +1,15 @@
-import { Container } from "@mui/material"
+import { Box } from "@mui/material"
 import { FC } from "react"
-import { SideBar } from "../../components/sidebar.component"
+import { NavBar, SideBar } from "../../components"
 
-const Root: FC = ()=>{
-    return(
-        <Container>
-            <SideBar/>
-        </Container>
+const Root: FC = () => {
+    return (
+        <main>
+        <Box className="app">
+                <SideBar/>
+                <NavBar/>
+        </Box>
+        </main>
     )
 }
 
