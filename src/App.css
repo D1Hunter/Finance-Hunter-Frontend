@@ -6,6 +6,5 @@
 .app {
   display: flex;
   flex-direction: row;
-  overflow: auto;
   position: relative;
 }

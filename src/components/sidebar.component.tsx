@@ -1,9 +1,19 @@
 import { Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material"
-import { Home, DataUsage, Settings, MenuOutlined } from "@mui/icons-material"
+import { MenuOutlined } from "@mui/icons-material"
 import { useState } from "react";
 const drawerWidth = 240;
 
-export const SideBar = () => {
+interface MenuItem {
+    text: string;
+    icon: JSX.Element;
+    onclick?: () => void;
+}
+
+interface SideBarProps {
+    menuItems: MenuItem[];
+}
+
+export const SideBar = ({ menuItems }: SideBarProps) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     return (
         <Box>
@@ -41,13 +51,9 @@ export const SideBar = () => {
                     </IconButton>
                 </Box>
                 <List>
-                    {[
-                        { text: 'Home', icon: <Home /> },
-                        { text: 'Budget', icon: <DataUsage /> },
-                        { text: 'Settings', icon: <Settings /> },
-                    ].map((item, index) => (
+                    {menuItems.map((item, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton>
+                            <ListItemButton onClick={item.onclick}>
                                 <ListItemIcon>{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.text} />
                             </ListItemButton>
