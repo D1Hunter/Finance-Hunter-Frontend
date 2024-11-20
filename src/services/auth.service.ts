@@ -27,7 +27,20 @@ export const authAPI = enchancedApi.injectEndpoints({
         }),
         logout: build.mutation<string, null>({
             query: () => ({
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
                 url: '/auth/logout',
+                credentials: "include"
+            })
+        }),
+        refresh: build.query<{ user:IUser,token: string }, null>({
+            query: () => ({
+                url: '/auth/',
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
                 credentials: "include"
             })
         })
