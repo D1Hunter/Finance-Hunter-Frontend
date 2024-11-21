@@ -11,7 +11,7 @@ const PersonalFinancesCard = ({title,value,icon,chartType}: PersonalFinancesCard
     return (
       <Card
         sx={{
-          backgroundColor: "wheat",
+          backgroundColor: "white",
           borderRadius: "4px",
           boxShadow: 4,
           display: "flex",

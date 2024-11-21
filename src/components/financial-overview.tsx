@@ -10,6 +10,7 @@ interface FinancialOverviewChartProps {
  
 const FinancialOverviewChart = ({ transactions } :FinancialOverviewChartProps ) => {
     const { labels, incomeData, expenseData } = useMemo(() => {
+        console.time("Transaction processing time");
         console.log(transactions);
         const incomeMap = new Map<string, number>();
         const expenseMap = new Map<string, number>();
@@ -26,7 +27,7 @@ const FinancialOverviewChart = ({ transactions } :FinancialOverviewChartProps ) 
         const labels = Array.from(new Set([...incomeMap.keys(), ...expenseMap.keys()])).sort();
         const incomeData = labels.map((label) => incomeMap.get(label) || 0);
         const expenseData = labels.map((label) => expenseMap.get(label) || 0);
-
+        console.timeEnd("Transaction processing time");
         return { labels, incomeData, expenseData };
     }, [transactions]);
 

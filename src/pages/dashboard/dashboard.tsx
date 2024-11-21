@@ -4,6 +4,7 @@ import { Balance, ShoppingCartCheckout, Work } from "@mui/icons-material";
 import { transactionAPI } from "../../services/transaction.service";
 import { useEffect, useState } from "react";
 import FinancialOverview from "../../components/financial-overview";
+import { CategoryAllocationChart } from "../../components/category-allication";
 
 const Dashboard = () => {
   const { data: transactions = [], isSuccess } = transactionAPI.useGetTransactionsQuery(null);
@@ -21,7 +22,7 @@ const Dashboard = () => {
 
       const calculatedExpenses = transactions
         .filter((t) => t.type === 'Expense')
-        .reduce((sum, t) => sum + t.ammount, 0);
+        .reduce((sum, t) => sum + +t.ammount, 0);
 
       setIncome(calculatedIncome);
       setExpenses(calculatedExpenses);
@@ -69,6 +70,9 @@ const Dashboard = () => {
         <Grid>
             <FinancialOverview transactions={transactions}/>
           </Grid>
+        <Grid>
+            <CategoryAllocationChart transactions={transactions}/>
+        </Grid>
       </Grid>
     </>
   )
