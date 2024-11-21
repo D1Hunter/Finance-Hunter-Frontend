@@ -6,7 +6,7 @@ import Root from './pages/root/root.page'
 import { useAppDispatch, useAppSelector } from './hooks/redux'
 import { useEffect } from 'react'
 import { authAPI } from './services/auth.service'
-import { setUser } from './store/reducers/user'
+import { setUser } from './store/reducers/user-slice'
 import Dashboard from './pages/dashboard/dashboard'
 import Budget from './pages/budget/budget'
 

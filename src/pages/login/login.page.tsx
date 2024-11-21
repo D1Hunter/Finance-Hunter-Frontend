@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Button, Container, Link, Paper, Stack, TextField, Typography } from "@mui/material";
 import { useAppDispatch } from "../../hooks/redux";
-import { setUser } from "../../store/reducers/user";
+import { setUser } from "../../store/reducers/user-slice";
 import { authAPI } from "../../services/auth.service";
 
 const Login = () => {

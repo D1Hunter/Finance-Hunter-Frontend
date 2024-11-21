@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Typography } from "@mui/material"
 import { authAPI } from "../services/auth.service";
 import { useEffect } from "react";
-import { setUser } from "../store/reducers/user";
+import { setUser } from "../store/reducers/user-slice";
 import { useAppDispatch } from "../hooks/redux";
 
 interface IUserMenuProps {
