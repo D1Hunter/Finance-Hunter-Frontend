@@ -13,10 +13,11 @@ import Budget from './pages/budget/budget'
 function App() {
   const dispatch = useAppDispatch();
   const isAuth = useAppSelector(state => state.userReducer.isAuth);
-  const { data, isError } = authAPI.useRefreshQuery(null);
+  const { data, error  } = authAPI.useRefreshQuery(null);
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       if (data?.user) {
         dispatch(setUser({ ...data.user }));
       }
@@ -24,7 +25,8 @@ function App() {
         localStorage.setItem('token', data.token);
       }
     }
-    if (isError) {
+    if (error) {
+      console.log(localStorage.getItem('token'));
       localStorage.removeItem('token');
     }
   }, [data, isAuth])
