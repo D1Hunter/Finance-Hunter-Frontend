@@ -1,64 +1,77 @@
 import { Box, Grid2 as Grid, Typography } from "@mui/material"
 import PersonalFinancesCard from "../../components/personal-finance-card.component";
-import { AttachMoney, Balance, Savings, ShoppingCartCheckout, Work } from "@mui/icons-material";
+import { Balance, ShoppingCartCheckout, Work } from "@mui/icons-material";
+import { transactionAPI } from "../../services/transaction.service";
+import { useEffect, useState } from "react";
+import FinancialOverview from "../../components/financial-overview";
 
 const Dashboard = () => {
-    return (
-        <> 
-        <Box sx={{ padding: 2 }}>
-            <Box sx={{ paddingBlock: 2, width: "100%" }}>
-                <Typography variant="h1">Overview</Typography>
-                <Typography variant="h6">
-                    A snapshot of your financial health
-                </Typography>
-            </Box>
+  const { data: transactions = [], isSuccess } = transactionAPI.useGetTransactionsQuery(null);
+  const [income, setIncome] = useState(0);
+  const [expenses, setExpenses] = useState(0);
+  const [balance, setBalance] = useState(0);
+
+
+  useEffect(() => {
+    if (isSuccess) {
+      const calculatedIncome = transactions
+        .filter((t) => t.type === 'Income')
+        .reduce((sum, t) => sum + +t.ammount, 0);
+        console.log(calculatedIncome);
+
+      const calculatedExpenses = transactions
+        .filter((t) => t.type === 'Expense')
+        .reduce((sum, t) => sum + t.ammount, 0);
+
+      setIncome(calculatedIncome);
+      setExpenses(calculatedExpenses);
+      setBalance(calculatedIncome - calculatedExpenses);
+    }
+  }, [isSuccess, transactions]);
+
+  return (
+    <>
+      <Box sx={{ padding: 2 }}>
+        <Box sx={{ paddingBlock: 2, width: "100%" }}>
+          <Typography variant="h1">Overview</Typography>
+          <Typography variant="h6">
+            A snapshot of your financial health
+          </Typography>
         </Box>
-        <Grid container spacing={2} sx={{ width: "100%" }}>
-          <Grid>
-            <PersonalFinancesCard
-              title="Income"
-              value={220350}
-              icon={<Work sx={{ color: "green" }} />}
-              chartType={[1, 4, 2, 5, 7, 2, 4, 6]}
-            />
-          </Grid>
-          <Grid>
-            <PersonalFinancesCard
-              title="Expenses"
-              value={90550}
-              icon={
-                <ShoppingCartCheckout sx={{ color: "green"  }} />
-              }
-              chartType={[3, -10, -2, 5, 7, -2, 4, 6]}
-            />
-          </Grid>
-          <Grid>
-            <PersonalFinancesCard
-              title="Balance"
-              value={470560}
-              icon={<Balance sx={{ color: "green"  }} />}
-              chartType={[1, 3, 4, 5, 5, 6, 6, 8]}
-            />
-          </Grid>
-          <Grid>
-            <PersonalFinancesCard
-              title="Savings"
-              value={86723}
-              icon={<Savings sx={{ color: "green" }} />}
-              chartType={[3, -10, -2, 3, 4, -2, 4, 6]}
-            />
-          </Grid>
-          <Grid>
-            <PersonalFinancesCard
-              title="Investments"
-              value={115550}
-              icon={<AttachMoney sx={{ color: "green" }} />}
-              chartType={[1, 4, 2, 5, 7, 2, 4, 6]}
-            />
-          </Grid>
+      </Box>
+      <Grid container spacing={2} sx={{ width: "100%" }}>
+        <Grid>
+          <PersonalFinancesCard
+            title="Income"
+            value={income}
+            icon={<Work sx={{ color: "green" }} />}
+            chartType={[1, 4, 2, 5, 7, 2, 4, 6]}
+          />
         </Grid>
-        </>
-    )
+        <Grid>
+          <PersonalFinancesCard
+            title="Expenses"
+            value={expenses}
+            icon={
+              <ShoppingCartCheckout sx={{ color: "green" }} />
+            }
+            chartType={[3, -10, -2, 5, 7, -2, 4, 6]}
+          />
+        </Grid>
+        <Grid>
+          <PersonalFinancesCard
+            title="Balance"
+            value={balance}
+            icon={<Balance sx={{ color: "green" }} />}
+            chartType={[1, 3, 4, 5, 5, 6, 6, 8]}
+          />
+        </Grid>
+        <Grid>
+            <FinancialOverview transactions={transactions}/>
+          </Grid>
+      </Grid>
+    </>
+  )
 }
 
 export default Dashboard;

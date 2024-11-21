@@ -2,7 +2,7 @@ import { ICategory } from "./category.interface";
 
 export interface ITransaction {
     id:string;
-    ammount:string;
+    ammount:number;
     type:string;
     description:string;
     category:ICategory;
